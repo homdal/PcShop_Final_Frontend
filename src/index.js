@@ -1,17 +1,33 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import "./index.css";
+import App from "./App";
+import axios from "axios";
+import { Provider } from "react-redux";
+import store from "./store/store";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+axios.defaults.baseURL = "http://localhost:5000/api/v1";
+axios.interceptors.request.use((config) => {
+  const tokenLocal = localStorage.getItem("token");
+  const tokenSession = sessionStorage.getItem("token");
+  if (tokenLocal) {
+    config.headers["Authorization"] = `bearer ${tokenLocal}`;
+  } else if (tokenSession) {
+    config.headers["Authorization"] = `bearer ${tokenSession}`;
+  } else {
+    config.headers[
+      "Authorization"
+    ] = `bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWMwYzAzZWI5OWZiN2Y0YzczM2YwZDUiLCJpYXQiOjE3MDg3NzIxNDR9.NNngkOhETWzAwYlYKbuNym0kU64IziznvzGcbpHwgaI`;
+  }
+  return config;
+});
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
