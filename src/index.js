@@ -26,7 +26,7 @@ axios.interceptors.request.use((config) => {
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
-    <BrowserRouter>
+    <BrowserRouter basename="/PcShop_Final_Frontend">
       <App />
     </BrowserRouter>
   </Provider>
