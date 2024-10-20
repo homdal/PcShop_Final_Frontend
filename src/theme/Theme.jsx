@@ -172,6 +172,9 @@ export const Theme = () => ({
             height: "40px",
             borderTop: "1px solid black",
             borderBottom: "1px solid black",
+            "&:hover": {
+              backgroundColor: "rgba(202, 202, 202, 0.2)",
+            },
           },
         },
       },
